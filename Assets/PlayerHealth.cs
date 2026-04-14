@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -11,12 +12,15 @@ public class PlayerHealth : MonoBehaviour
 
     public delegate void HealthChangedHandler(float newhealth, float amountChanged);
     public event HealthChangedHandler OnHealthChanged;
-    
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public delegate void HealthInitHandler(float newhealth);
+    public event HealthInitHandler OnHealthInisialised;
+
+   // Start is called once before the first execution of Update after the MonoBehaviour is created
+   void Start()
     {
         health = maxHealth;
+        OnHealthInisialised?.Invoke(health);
     }
 
     // Update is called once per frame
