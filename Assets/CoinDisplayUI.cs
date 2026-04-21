@@ -6,15 +6,21 @@ public class CoinDisplayUI : MonoBehaviour
     public TextMeshProUGUI CoinText;
     public playersCoins playercoins;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         playercoins.OnCoinChange += OnCoinChange;
+        playercoins.OnCoinInnit += Playercoins_OnCoinInnit;
+    }
+
+    private void Playercoins_OnCoinInnit(float addCoin)
+    {
+        CoinText.text = addCoin.ToString();
     }
 
     public void OnCoinChange(float addCoin)
     {
         CoinText.text = addCoin.ToString();
-    
+      
     }
 
 

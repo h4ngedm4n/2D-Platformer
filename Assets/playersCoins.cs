@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class playersCoins : MonoBehaviour
 {
-    public float MaxCoin = 100;
+    public float MaxCoin = 999;
     private float coin;
     
 
     public delegate void CoinChangeHandler(float addCoin);
     public event CoinChangeHandler OnCoinChange;
-
+    public event CoinChangeHandler OnCoinInnit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        OnCoinInnit?.Invoke(coin);
     }
 
     // Update is called once per frame
