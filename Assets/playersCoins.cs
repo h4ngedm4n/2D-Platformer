@@ -3,7 +3,7 @@ using UnityEngine;
 public class playersCoins : MonoBehaviour
 {
     public float MaxCoin = 999;
-    private float coin;
+    public float coin;
     
 
     public delegate void CoinChangeHandler(float addCoin);

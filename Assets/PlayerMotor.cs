@@ -4,12 +4,14 @@ using UnityEngine.InputSystem;
 public class PlayerMotor : MonoBehaviour
 {
     Vector2 direction;
-    private bool canJump = true;
     private Rigidbody2D rigidbody2D;
     public float speed = 10;
-    public float jumpforce = 5;
+    private bool canJump = true;
+    public float jumpforce = 2;
     public float maxSpeed = 10;
     public float stoppingForce = 5;
+    private int jumpCount = 0;
+    public int maxJumps = 2;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -56,15 +58,20 @@ public class PlayerMotor : MonoBehaviour
     private void OnJump()
     {
         if (canJump)
-        { 
+        {
             rigidbody2D.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
-        canJump = false;
-   
+            jumpCount++;
+            if (jumpCount >= maxJumps)
+            {
+                canJump = false;
+            }
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         canJump = true;
-
+        jumpCount = 0;  
     }
+
+
 }
