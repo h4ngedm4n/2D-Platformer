@@ -5988,6 +5988,8 @@ MonoBehaviour:
   maxSpeed: 10
   stoppingForce: 5
   maxJumps: 2
+  dashForce: 10
+  dashTime: 0.5
 --- !u!114 &1048695803
 MonoBehaviour:
   m_ObjectHideFlags: 0
