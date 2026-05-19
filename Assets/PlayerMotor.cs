@@ -13,10 +13,17 @@ public class PlayerMotor : MonoBehaviour
     public float stoppingForce = 5;
     private int jumpCount = 0;
     public int maxJumps = 2;
+    private Animator _animator;
+
+    private float initXSCale;
+    public float AirJump = 10;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
+        initXSCale = transform.localScale.x;
     }
     // Update is called once per frame
     private void FixedUpdate()
@@ -24,6 +31,24 @@ public class PlayerMotor : MonoBehaviour
         MovePlayer();
         HandleMaxSpeed();
         PlayerStopping();
+        if (direction.x != 0)
+        {
+            _animator.SetBool("isMoving", true);
+        }
+        else
+        {
+            _animator.SetBool("isMoving", false);
+
+        }
+
+        if (direction.x > 0)
+        {
+            transform.localScale = new Vector3(initXSCale, transform.localScale.y, transform.localScale.z);
+        }
+        else if (direction.x < 0)
+        {
+            transform.localScale = new Vector3(-initXSCale, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     private void MovePlayer()
@@ -64,18 +89,32 @@ public class PlayerMotor : MonoBehaviour
     {
         if (canJump)
         {
-            rigidbody2D.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+            if (jumpCount == 0)
+            {
+                rigidbody2D.AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+            }
+            else if (jumpCount > 0)
+            {
+                rigidbody2D.linearVelocityY = AirJump;
+            }
             jumpCount++;
+
             if (jumpCount >= maxJumps)
             {
                 canJump = false;
             }
+            Debug.Log("Jump count " + jumpCount);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        canJump = true;
-        jumpCount = 0;  
+        Debug.Log("a");
+        if (collision.gameObject.tag == "Floor")
+        {
+            Debug.Log("b");
+            canJump = true;
+            jumpCount = 0;
+        }
     }
 
    private void OnDash()
